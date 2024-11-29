@@ -2,7 +2,9 @@ import hashlib
 import math
 import random
 import string
-import time
+import argparse
+import hmac
+import os
 
 # دیکشنری برای ذخیره داده‌ها و هش‌های آنها
 hash_dict = {}
@@ -60,39 +62,29 @@ def store_hash(data):
     return hash_value
 
 # بررسی هش و برگرداندن داده اصلی
-def unhash(hash_value):
-    # بررسی اینکه آیا هش در دیکشنری وجود دارد
-    if hash_value in hash_dict:
-        return f"Original Data: {hash_dict[hash_value]}"
+def unhash(hashed_value):
+    # برگرداندن داده اصلی از هش ذخیره‌شده
+    if hashed_value in hash_dict:
+        return hash_dict[hashed_value]
     else:
-        return "Hash not found in database."
+        return "Hash not found!"
 
-# نمایش منو برای انتخاب عمل
-def show_menu():
-    print("\nSelect an option:")
-    print("1. Hashing")
-    print("2. Unhashing")
-    choice = input("Enter your choice (1 or 2): ")
-    return choice
-
-# اجرای برنامه
+# تابع برای پردازش دستورات
 def main():
-    while True:
-        choice = show_menu()
-        
-        if choice == "1":
-            data = input("Enter the data to hash: ")
-            store_hash(data)
-        elif choice == "2":
-            hash_value = input("Enter the hash to unhash: ")
-            result = unhash(hash_value)
-            print(result)
-        else:
-            print("Invalid option, please choose again.")
-        
-        cont = input("\nDo you want to perform another operation? (yes/no): ")
-        if cont.lower() != 'yes':
-            break
+    parser = argparse.ArgumentParser(description="ZeroHash CLI Tool for Secure Hashing and Unhashing")
+    parser.add_argument("command", help="Command to run: hash or unhash", choices=["hash", "unhash"])
+    parser.add_argument("value", help="The value to hash or the hash to unhash")
+    args = parser.parse_args()
+
+    if args.command == "hash":
+        # عملیات هش کردن
+        data = args.value
+        store_hash(data)
+    elif args.command == "unhash":
+        # عملیات آن هش کردن
+        hashed_value = args.value
+        original_data = unhash(hashed_value)
+        print(f"Original data: {original_data}")
 
 if __name__ == "__main__":
     main()
