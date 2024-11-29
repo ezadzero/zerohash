@@ -61,4 +61,5 @@ print(f"Original Data: {original_data}")
 - **Support for Additional Algorithms**: Integrate more cryptographic algorithms to offer even more flexibility and security options.
 - **Customizable Hashing Scheme**: Allow users to define their own transformations and hashing sequences to tailor the system to their specific security needs.
 
+![Screenshot (73)](https://github.com/user-attachments/assets/43789770-2df5-4837-85e8-eb7c5c2d6956)
 
